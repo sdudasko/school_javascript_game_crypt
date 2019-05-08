@@ -1,0 +1,54 @@
+<html>
+<head>
+    <title>Crypt</title>
+    <meta charset="utf-8">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<canvas id="gameCanvas" width="800" height="600"></canvas>
+
+<div id="menu" class="menu" onclick="openMenu()">Menu</div>
+
+<div class="screen-settings" id="screen-settings">
+    <ul>
+        <li><a href="#" id="play" onclick="launchGame()">Play</a></li>
+        <li><a href="#" id="score" onclick="openScore()">Score</a></li>
+        <li><a href="#" id="settings" onclick="openSettings()">Settings</a></li>
+        <li><a href="#" id="sound">Sound</a></li>
+    </ul>
+</div>
+
+<!--<div class="score-table" id="score-table">-->
+    <!--<ul class="score-table__list">-->
+        <!--<li class="score-table__list-item">10 000</li>-->
+        <!--<li class="score-table__list-item">10 000</li>-->
+        <!--<li class="score-table__list-item">10 000</li>-->
+        <!--<li class="score-table__list-item">10 000</li>-->
+        <!--<li class="score-table__list-item">10 000</li>-->
+    <!--</ul>-->
+<!--</div>-->
+
+<div class="settings-screen" id="settings-screen">
+    <ul class="score-table__list">
+        <li class="score-table__list">Zvuk: <span onclick="toggleSound()">🔊</span></li>
+        <li class="score-table__list">Obtiažnosť: </li>
+    </ul>
+</div>
+
+
+<script src="js/Settings.js"></script>
+
+<script src="js/BaseClass.js"></script>
+<script src="js/Brick.js"></script>
+<script src="js/Level.js"></script>
+
+<script src="js/Graphic.js"></script>
+<script src="js/Input.js"></script>
+<script src="js/Hero.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
