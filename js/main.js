@@ -1,7 +1,7 @@
 let canvas, ctx;
 
-let hero = new Hero();
-let enemy = new Hero();
+let hero = new Hero('hero', 200, 200);
+let enemy = new Hero('enemy', 500, 200, true, true, 'left', 2);
 
 let brick = new Brick();
 let level = new Level();
@@ -22,7 +22,11 @@ let canJump = true;
 
 window.onload = function() {
     launchGame();
-}
+
+    setInterval(function() {
+        enemy.attack();
+    }, 1000);
+};
 
 function toggleSound()
 {
@@ -78,10 +82,12 @@ function rowColToArrayIndex(col, row) {
 function updateAll() {
 
     drawAll();
+
+    hero.drawCharacter();
     hero.move();
 
+    enemy.drawCharacter();
     enemy.move();
-    hero.drawCharacter();
 
     globalCounter++;
 }

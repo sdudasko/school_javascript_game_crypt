@@ -1,21 +1,35 @@
 class Hero extends BaseClass {
 
-    constructor() {
+    /**
+     *
+     * @param type - enemy/hero
+     * @param x - position
+     * @param y - position
+     * @param swordChased - has chased sword
+     * @param hasSwordByDefault
+     * @param turn - turn direction
+     * @param walkSpeed
+     */
+    constructor(
+        type, x, y, swordChased = false, hasSwordByDefault = false, turn = 'right', walkSpeed = 3
+    ) {
         super();
+        this.type = type;
         this.height = 80;
         this.width = 40;
         this.speedX = 0;
         this.speedY = 0;
-        this.walkSpeed = 3;
-        this.walkBackSpeed = -3;
+        this.walkSpeed = walkSpeed;
+        this.walkBackSpeed = -walkSpeed;
+
         this.swordAngle = - Math.PI/2;
-
         this.swordAngleRotation = 0;
-        this.turn = 'right';
-        this.swordChased = false;
+        this.turn = turn;
+        this.swordChased = swordChased;
+        this.hasSwordByDefault = hasSwordByDefault;
 
-        this.x = 200;
-        this.y = 200;
+        this.x = x;
+        this.y = y;
 
         this.jumping = false;
         this.attacking = false;
@@ -40,16 +54,14 @@ class Hero extends BaseClass {
     }
 
     hasSword() {
-        return inventory.indexOf(level.notation['SWORD']) !== -1;
+        if (!this.hasSwordByDefault) {
+            return inventory.indexOf(level.notation['SWORD']) !== -1;
+        }
+        return true;
     }
 
     chaseSword(chase = true) {
-        if (chase) {
-            this.swordChased = true;
-        } else {
-            this.swordChased = false;
-        }
-        // inventory.splice(inventory.indexOf(level.notation['SWORD']), 1);
+        this.swordChased = chase;
     }
 
     canGo(posX, posY) {
@@ -74,12 +86,20 @@ class Hero extends BaseClass {
         this.speedX = 0;
 
         if (heldKeyLeft) {
-            this.speedX = this.walkBackSpeed;
+            hero.speedX = this.walkBackSpeed;
+        }
+        if (hero.x + 50 <= enemy.x) {
+            enemy.turn = 'left';
+            enemy.speedX = this.walkBackSpeed;
+        } else if (hero.x + 25 > enemy.x) {
+            enemy.turn = 'right';
+            enemy.speedX = this.walkSpeed;
+        }
 
-        }
         if (heldKeyRight) {
-            this.speedX = this.walkSpeed;
+            hero.speedX = this.walkSpeed;
         }
+
         if (heldKeyUp) {
             this.jump();
         }
@@ -161,15 +181,15 @@ class Hero extends BaseClass {
         this.x += this.speedX;
         this.y += this.speedY;
 
-        if (this.x === (canvas.width - hero.width + 3) && hero.turn === 'right') {
+        if (this.x === (canvas.width - this.width + 3) && this.turn === 'right') {
             level.set('currentLevel', level.level2);
             this.x = 0;
         }
 
         // We are on the left side of 2nd level
-        if ((this.x <= 0) && (level.currentLevel === level.level2) && (hero.turn === 'left')) {
+        if ((this.x <= 0) && (level.currentLevel === level.level2) && (this.turn === 'left')) {
             level.set('currentLevel', level.level1);
-            this.x = canvas.width - hero.width;
+            this.x = canvas.width - this.width;
         }
 
     }
@@ -193,8 +213,8 @@ class Hero extends BaseClass {
     }
     attack() {
 
-        if ((inventory.indexOf(level.notation['SWORD']) !== -1) && hero.swordChased === false) {
-            hero.chaseSword();
+        if ((inventory.indexOf(level.notation['SWORD']) !== -1) && this.swordChased === false) {
+            this.chaseSword();
             return;
         }
 
@@ -217,11 +237,20 @@ class Hero extends BaseClass {
         let i = imageToDraw.useImg;
         let spriteW = 37, spriteH = 80;
 
-        if (heldKeyLeft && !heldKeyRight) {
-            startingY = 80;
-        } else {
-            if (!heldKeyLeft && heldKeyRight) {
+        if (this.type === 'enemy') {
+            if (hero.x + 25 <= enemy.x) {
+                startingY = 80;
+            } else {
                 startingY = 0;
+            }
+        } else {
+            
+            if (heldKeyLeft && !heldKeyRight) {
+                startingY = 80;
+            } else {
+                if (!heldKeyLeft && heldKeyRight) {
+                    startingY = 0;
+                }
             }
         }
 
@@ -229,7 +258,7 @@ class Hero extends BaseClass {
         ctx.drawImage(i, cycle * spriteW, startingY, spriteW, spriteH, this.x, this.y, spriteW, spriteH);
         ctx.restore();
 
-        if ((heldKeyRight || heldKeyLeft) && (globalCounter % 2.5 === 0) && hero.onGround()) {
+        if ((heldKeyRight || heldKeyLeft) && (globalCounter % 2.5 === 0) && this.onGround()) {
             cycle = (cycle + 1) % 8;
         }
 
@@ -240,11 +269,11 @@ class Hero extends BaseClass {
             return el.notation === level.notation['SWORD'];
         });
 
-        if (hero.hasSword()) {
+        if (this.hasSword()) {
             ctx.save();
             ctx.translate(swordX, swordY);
-            ctx.rotate(hero.swordAngle);
-            if (hero.swordChased) {
+            ctx.rotate(this.swordAngle);
+            if (this.swordChased) {
                 ctx.drawImage(swordToDraw.useImg, 0, 0);
             }
             ctx.restore();
@@ -255,11 +284,11 @@ class Hero extends BaseClass {
     getSwordCoords(imageToDraw) {
         let swordX =  inventory.indexOf('sword') !== -1 ? brick.width / 2 - imageToDraw.useImg.width / 2 : 0;
 
-        if (hero.turn === 'right') {
+        if (this.turn === 'right') {
             swordX = this.x + 25;
             swordY = this.y + 52;
         } else {
-            swordX = this.x + 40 - hero.width;
+            swordX = this.x + 40 - this.width;
             swordY = this.y + 55;
         }
 

@@ -9,10 +9,10 @@ function keyPressed(e) {
 
     if (e.code === CONTROLS['LEFT']) {
         heldKeyLeft = true;
-        hero.turn = 'left';
+        // hero.turn = 'left';
     } else if (e.code === CONTROLS['RIGHT']) {
         heldKeyRight = true;
-        hero.turn = 'right';
+        // hero.turn = 'right';
     } else if (e.code === CONTROLS['UP']) {
         heldKeyUp = true;
     } else if (e.code === CONTROLS['DOWN']) {
