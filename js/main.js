@@ -1,7 +1,7 @@
 let canvas, ctx;
 
 let hero = new Hero('hero', 200, 200);
-let enemy = new Hero('enemy', 500, 200, true, true, 'left', 2);
+let enemy = new Hero('enemy', 500, 200, true, true, 'left', 2, 'enemy_anim_spread2.png');
 
 let brick = new Brick();
 let level = new Level();
@@ -25,7 +25,7 @@ window.onload = function() {
 
     setInterval(function() {
         enemy.attack();
-    }, 1000);
+    }, 500);
 };
 
 function toggleSound()

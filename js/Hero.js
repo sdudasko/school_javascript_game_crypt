@@ -9,9 +9,10 @@ class Hero extends BaseClass {
      * @param hasSwordByDefault
      * @param turn - turn direction
      * @param walkSpeed
+     * @param imgSrc
      */
     constructor(
-        type, x, y, swordChased = false, hasSwordByDefault = false, turn = 'right', walkSpeed = 3
+        type, x, y, swordChased = false, hasSwordByDefault = false, turn = 'right', walkSpeed = 3, imgSrc
     ) {
         super();
         this.type = type;
@@ -22,11 +23,14 @@ class Hero extends BaseClass {
         this.walkSpeed = walkSpeed;
         this.walkBackSpeed = -walkSpeed;
 
+        this.startingY = 0;
+
         this.swordAngle = - Math.PI/2;
         this.swordAngleRotation = 0;
         this.turn = turn;
         this.swordChased = swordChased;
         this.hasSwordByDefault = hasSwordByDefault;
+        this.imgSrc = imgSrc;
 
         this.x = x;
         this.y = y;
@@ -36,9 +40,9 @@ class Hero extends BaseClass {
     }
 
     jump() {
-        if (!this.jumping) {
-            this.speedY = -16;
-            this.jumping = true;
+        if (!hero.jumping) {
+            hero.speedY = -16;
+            hero.jumping = true;
         }
     }
 
@@ -234,28 +238,33 @@ class Hero extends BaseClass {
             return el.notation === level.notation['HERO'];
         });
 
+        if (this.imgSrc !== undefined) {
+            imageToDraw = imagesByCell.find(function (el) {
+                return el.notation === level.notation['ENEMY'];
+            });
+        }
+
         let i = imageToDraw.useImg;
         let spriteW = 37, spriteH = 80;
 
         if (this.type === 'enemy') {
             if (hero.x + 25 <= enemy.x) {
-                startingY = 80;
+                this.startingY = 80;
             } else {
-                startingY = 0;
+                this.startingY = 0;
             }
         } else {
-            
             if (heldKeyLeft && !heldKeyRight) {
-                startingY = 80;
+                this.startingY = 80;
             } else {
                 if (!heldKeyLeft && heldKeyRight) {
-                    startingY = 0;
+                    this.startingY = 0;
                 }
             }
         }
 
         ctx.save();
-        ctx.drawImage(i, cycle * spriteW, startingY, spriteW, spriteH, this.x, this.y, spriteW, spriteH);
+        ctx.drawImage(i, cycle * spriteW, this.startingY, spriteW, spriteH, this.x, this.y, spriteW, spriteH);
         ctx.restore();
 
         if ((heldKeyRight || heldKeyLeft) && (globalCounter % 2.5 === 0) && this.onGround()) {

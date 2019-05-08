@@ -13,6 +13,7 @@ class Level extends BaseClass
             'POTION': 7,
             'INVENTORY': 8,
             'TORCH': 9,
+            'ENEMY': 15 ,
         };
         this.level1 = [
             1, 1, 1, 1, 1, 1, 1, 0,

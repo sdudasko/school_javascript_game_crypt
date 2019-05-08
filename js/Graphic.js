@@ -17,6 +17,7 @@ function loadImages() {
         { notation: level.notation['POTION'], src: 'potion.png' },
         { notation: level.notation['TORCH'], src: 'torches-sprite4.png' },
         { notation: level.notation['GEM'], src: 'gem.png' },
+        { notation: 15, src: 'enemy_anim_spread2.png' },
     ];
 
     images.forEach((val) => {
