@@ -39,10 +39,17 @@ class Hero extends BaseClass {
         this.attacking = false;
     }
 
-    jump() {
-        if (!hero.jumping) {
-            hero.speedY = -16;
-            hero.jumping = true;
+    jump(type = null) {
+        if (type === 'enemy') {
+            if (!enemy.jumping) {
+                enemy.speedY = -16;
+                enemy.jumping = true;
+            }
+        } else {
+            if (!hero.jumping) {
+                hero.speedY = -16;
+                hero.jumping = true;
+            }
         }
     }
 
@@ -98,6 +105,10 @@ class Hero extends BaseClass {
         } else if (hero.x + 25 > enemy.x) {
             enemy.turn = 'right';
             enemy.speedX = this.walkSpeed;
+        }
+
+        if (hero.y < enemy.y) {
+            enemy.jump('enemy');
         }
 
         if (heldKeyRight) {
@@ -185,15 +196,15 @@ class Hero extends BaseClass {
         this.x += this.speedX;
         this.y += this.speedY;
 
-        if (this.x === (canvas.width - this.width + 3) && this.turn === 'right') {
-            level.set('currentLevel', level.level2);
-            this.x = 0;
+        if (hero.x === (canvas.width - hero.width + 3) && hero.turn === 'right') {
+            level.set('currentLevel', level.levels[1]);
+            hero.x = 0;
         }
 
         // We are on the left side of 2nd level
-        if ((this.x <= 0) && (level.currentLevel === level.level2) && (this.turn === 'left')) {
-            level.set('currentLevel', level.level1);
-            this.x = canvas.width - this.width;
+        if ((hero.x <= 0) && (level.currentLevel === level.levels[1]) && (hero.turn === 'left')) {
+            level.set('currentLevel', level.levels[0]);
+            hero.x = canvas.width - this.width;
         }
 
     }
