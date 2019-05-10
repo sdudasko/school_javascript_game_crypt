@@ -1,7 +1,7 @@
 let canvas, ctx;
 
 let hero = new Hero(200, 200);
-let enemy = new Enemy(500, 200, true, true, 'left', 2, 'enemy_anim_spread2.png');
+let enemy = new Enemy(500, 220, true, true, 'left', 2, 'enemy_anim_spread2.png');
 
 let brick = new Brick();
 let level = new Level();
@@ -24,7 +24,7 @@ window.onload = function() {
     launchGame();
 
     setInterval(function() {
-        enemy.attack();
+        // enemy.attack();
     }, 500);
 };
 
@@ -87,7 +87,7 @@ function updateAll() {
     hero.move();
 
     enemy.drawCharacter();
-    enemy.move();
+    // enemy.move();
 
     globalCounter++;
 }

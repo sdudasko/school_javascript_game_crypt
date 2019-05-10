@@ -22,7 +22,10 @@ class Character {
 
         this.startingY = 0;
 
-        this.swordAngle = - Math.PI/2;
+        this.swordX = 0;
+        this.swordY = 0;
+
+        this.swordAngle = -Math.PI / 2;
         this.swordAngleRotation = 0;
         this.swordEndX = 0;
         this.swordChased = swordChased;
@@ -99,8 +102,8 @@ class Character {
             cycle = (cycle + 1) % 8;
         }
 
-        swordX = this.getSwordCoords(imageToDraw)['x'];
-        swordY = this.getSwordCoords(imageToDraw)['y'];
+        this.swordX = this.getSwordCoords(imageToDraw)['x'];
+        this.swordY = this.getSwordCoords(imageToDraw)['y'];
 
         let swordToDraw = imagesByCell.find(function (el) {
             return el.notation === level.notation['SWORD'];
@@ -108,7 +111,7 @@ class Character {
 
         if (this.hasSword()) {
             ctx.save();
-            ctx.translate(swordX, swordY);
+            ctx.translate(this.swordX, this.swordY);
             ctx.rotate(this.swordAngle);
             if (this.swordChased) {
                 ctx.drawImage(swordToDraw.useImg, 0, 0);
@@ -248,28 +251,8 @@ class Character {
         if (this.speedX < 0 && !this.canGo(this.x - 5, this.y + (this.width / 2))) {
             this.x = (Math.floor(this.x / brick.width)) * (brick.width) + 7;
         }
-        if (this.attacking) {
-            if (this.turn === 'right') {
-                this.swordAngleRotation -= Math.PI/30;
 
-                if (this.swordAngleRotation <= -Math.PI/6) {
-
-                    this.swordAngleRotation = 0;
-                    this.swordAngle = - Math.PI/2;
-                    this.attacking = false;
-                }
-
-            } else {
-                this.swordAngleRotation += Math.PI/30;
-
-                if (this.swordAngleRotation >= +Math.PI/6) {
-
-                    this.swordAngleRotation = 0;
-                    this.swordAngle = - Math.PI/2;
-                    this.attacking = false;
-                }
-            }
-        }
+        this.handleAttack();
 
         this.swordAngle += this.swordAngleRotation;
 
@@ -308,18 +291,32 @@ class Character {
     }
 
     getSwordCoords(imageToDraw) {
-        let swordX =  inventory.indexOf('sword') !== -1 ? brick.width / 2 - imageToDraw.useImg.width / 2 : 0;
+        let swordX = inventory.indexOf('sword') !== -1 ? brick.width / 2 - imageToDraw.useImg.width / 2 : 0;
 
         if (this.turn === 'right') {
-            swordX = this.x + 25;
-            swordY = this.y + 52;
+            this.swordX = this.x + 25;
+            this.swordY = this.y + 52;
         } else {
-            swordX = this.x + 40 - this.width;
-            swordY = this.y + 55;
+            this.swordX = this.x + 40 - this.width;
+            this.swordY = this.y + 55;
         }
-        console.log(swordX);
 
-        return {'x': swordX, 'y': swordY};
+
+        return {'x': this.swordX, 'y': this.swordY};
+    }
+
+    getXandYOfSwordEnd(xCoord, yCoord, angle, length, increaseToX, increaseToY = 0) {
+        length = typeof length !== 'undefined' ? length : 10;
+        angle = angle * Math.PI / 180; // if you're using degrees instead of radians
+        return {
+            x: length * Math.cos(angle + increaseToX) + xCoord,
+            y: length * Math.sin(angle + increaseToY) + yCoord
+        }
+    }
+
+    radians_to_degrees(radians) {
+        var pi = Math.PI;
+        return radians * (180 / pi);
     }
 
 }
