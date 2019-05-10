@@ -8,47 +8,93 @@ class Enemy extends Character
 
     handleAttack() {
         if (this.attacking) {
+            let swordCoordsWhenAttacking;
 
-            let swordCoordsWhenAttacking = this.getXandYOfSwordEnd(
-                this.swordX,
-                this.swordY,
-                this.radians_to_degrees(this.swordAngleRotation) + 225, // Not sure why 225 lul, works tho :D
-                63
-            );
-            // console.log(swordCoordsWhenAttacking['y'], enemy.y + 63);
             if (this.turn === 'right') {
+
+                swordCoordsWhenAttacking = this.getXandYOfSwordEnd(
+                    this.swordX,
+                    this.swordY,
+                    this.radians_to_degrees(this.swordAngleRotation) + 225, // Not sure why 225 lul, works tho :D
+                    63,
+                    180
+                );
                 this.swordAngleRotation -= Math.PI / 30;
 
-                if (this.swordAngleRotation <= - Math.PI / 6) {
+                if (this.swordAngleRotation <= -Math.PI / 6) {
 
                     this.swordAngleRotation = 0;
-                    this.swordAngle = - Math.PI / 2;
+                    this.swordAngle = -Math.PI / 2;
                     this.attacking = false;
                 }
 
-                if (enemy.turn === 'left') {
+                if (hero.turn === 'left') {
                     if (
-                        swordCoordsWhenAttacking['x'] >= enemy.x - enemy.width &&
+                        swordCoordsWhenAttacking['x'] >= hero.x - hero.width &&
                         (
-                            swordCoordsWhenAttacking['y'] <= enemy.y + enemy.height && // We are higher or on the same height as the enemy
-                            swordCoordsWhenAttacking['y'] > enemy.y - enemy.height
+                            swordCoordsWhenAttacking['y'] <= hero.y + hero.height && // We are higher or on the same height as the hero
+                            swordCoordsWhenAttacking['y'] > hero.y - hero.height
                         )
                     ) {
                         this.hit();
                     }
                 } else {
-                    if (swordCoordsWhenAttacking['x'] >= enemy.x + enemy.width + 15) {
+                    if (
+                        swordCoordsWhenAttacking['x'] >= hero.x &&
+                        (
+                            swordCoordsWhenAttacking['y'] <= hero.y + hero.height && // We are higher or on the same height as the hero
+                            swordCoordsWhenAttacking['y'] > hero.y - hero.height
+                        )
+                    ) {
+                        this.hit();
                     }
                 }
 
             } else {
+
+                swordCoordsWhenAttacking = this.getXandYOfSwordEnd(
+                    this.swordX,
+                    this.swordY,
+                    this.radians_to_degrees(this.swordAngleRotation),
+                    63,
+                    -180, // - PI due to starting angle of sword
+                    -45
+                );
+
                 this.swordAngleRotation += Math.PI / 30;
 
                 if (this.swordAngleRotation >= Math.PI / 6) {
 
                     this.swordAngleRotation = 0;
-                    this.swordAngle = - Math.PI / 2;
+                    this.swordAngle = -Math.PI / 2;
                     this.attacking = false;
+                }
+
+                if (hero.turn === 'left') {
+                    if (
+                        (
+                            swordCoordsWhenAttacking['x'] <= hero.x + hero.width &&
+                            swordCoordsWhenAttacking['x'] + this.width >= hero.x
+                        ) && (
+                            swordCoordsWhenAttacking['y'] <= hero.y + hero.height && // We are higher or on the same height as the hero
+                            swordCoordsWhenAttacking['y'] > hero.y - hero.height
+                        )
+                    ) {
+                        this.hit();
+                    }
+                } else {
+                    if (
+                        (
+                            swordCoordsWhenAttacking['x'] >= hero.x &&
+                            swordCoordsWhenAttacking['x'] < hero.x + hero.width
+                        ) &&
+                        (
+                            swordCoordsWhenAttacking['y'] <= hero.y + hero.height && // We are higher or on the same height as the hero
+                            swordCoordsWhenAttacking['y'] > hero.y - hero.height
+                        )
+                    ) {
+                        this.hit();
+                    }
                 }
             }
         }

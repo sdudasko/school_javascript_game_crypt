@@ -24,7 +24,7 @@ window.onload = function() {
     launchGame();
 
     setInterval(function() {
-        // enemy.attack();
+        enemy.attack();
     }, 500);
 };
 
@@ -87,7 +87,7 @@ function updateAll() {
     hero.move();
 
     enemy.drawCharacter();
-    // enemy.move();
+    enemy.move();
 
     globalCounter++;
 }

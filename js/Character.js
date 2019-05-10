@@ -54,8 +54,10 @@ class Character {
         }
 
         if (!this.attacking) {
+            // TODO - enemy sword angle handling
             if (this.turn === 'right') {
                 this.swordAngleRotation = Math.PI / 4.5;
+
             } else {
                 this.swordAngleRotation = -Math.PI / 4.5;
             }
@@ -181,11 +183,12 @@ class Character {
         if (heldKeyLeft) {
             hero.speedX = this.walkBackSpeed;
         }
-        if (hero.x + 50 <= enemy.x) {
+
+        if (hero.x + 80 <= enemy.x) { // 80 - sword length
             enemy.turn = 'left';
             enemy.speedX = this.walkBackSpeed;
 
-        } else if (hero.x + 25 > enemy.x) {
+        } else if (hero.x - 80 > enemy.x) {
             enemy.turn = 'right';
             enemy.speedX = this.walkSpeed;
         }

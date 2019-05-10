@@ -62,7 +62,7 @@ class Hero extends Character {
                     -180, // - PI due to starting angle of sword
                     -45
                 );
-                
+
                 this.swordAngleRotation += Math.PI / 30;
 
                 if (this.swordAngleRotation >= Math.PI / 6) {
