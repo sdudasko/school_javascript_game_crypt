@@ -1,7 +1,7 @@
 let canvas, ctx;
 
-let hero = new Hero('hero', 200, 200);
-let enemy = new Hero('enemy', 500, 200, true, true, 'left', 2, 'enemy_anim_spread2.png');
+let hero = new Hero(200, 200);
+let enemy = new Enemy(500, 200, true, true, 'left', 2, 'enemy_anim_spread2.png');
 
 let brick = new Brick();
 let level = new Level();
@@ -13,7 +13,7 @@ let gameLaunched = false;
 
 let globalCounter = 0;
 
-let inventory = [7, 7];
+let inventory = [7, 7, 7, 7, 7];
 let cycle = 0;
 
 let imagesByCell = [];

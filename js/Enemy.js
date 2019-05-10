@@ -1,8 +1,8 @@
-class Hero extends Character {
-
+class Enemy extends Character
+{
     constructor(...props) {
         super(...props);
 
-        this.type = 'hero';
+        this.type = 'enemy';
     }
 }
