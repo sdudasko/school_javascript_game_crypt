@@ -3,6 +3,14 @@ div {
     padding: 0;
     margin: 0;
 }
+.gameContainer {
+    width: 800px;
+    height: 600px;
+    position: relative;
+}
+canvas {
+    z-index: 5;
+}
 .menu {
     position: absolute;
     left: 5px;
@@ -33,3 +41,42 @@ div {
 .settings-screen--visible {
     display: block;
 }
+
+progress[value].enemy_health_progress {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 250px;
+    height: 20px;
+    background-color: red;
+    z-index: 10;
+    position: absolute;
+    bottom: 15px;
+    right: 30px;
+}
+progress[value].hero_health_progress {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 250px;
+    height: 20px;
+    background-color: red;
+    z-index: 10;
+    position: absolute;
+    bottom: 15px;
+    left: 30px;
+}
+
+progress[value]::-webkit-progress-bar {
+    border-radius: 2px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+
+.hero_health_progress::-moz-progress-bar { background: #BD3039; }
+.hero_health_progress::-webkit-progress-value { background: #BD3039; }
+
+.enemy_health_progress::-moz-progress-bar { background: #683390; }
+.enemy_health_progress::-webkit-progress-value { background: #683390; }
+
+
+/*.health_progress {*/
+    /*background-color: red;*/
+/*}*/

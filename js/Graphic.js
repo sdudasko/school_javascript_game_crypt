@@ -11,13 +11,13 @@ function drawAll() {
 function loadImages() {
 
     let images = [
-        { notation: level.notation['BRICK'], src: 'brick.png' },
-        { notation: level.notation['HERO'], src: 'hero_anim_spread2.png' },
-        { notation: level.notation['SWORD'], src: 'sword_2.png' },
-        { notation: level.notation['POTION'], src: 'potion.png' },
-        { notation: level.notation['TORCH'], src: 'torches-sprite4.png' },
-        { notation: level.notation['GEM'], src: 'gem.png' },
-        { notation: 15, src: 'enemy_anim_spread2.png' },
+        {notation: level.notation['BRICK'], src: 'brick.png'},
+        {notation: level.notation['HERO'], src: 'hero_anim_spread2.png'},
+        {notation: level.notation['SWORD'], src: 'sword_2.png'},
+        {notation: level.notation['POTION'], src: 'potion.png'},
+        {notation: level.notation['TORCH'], src: 'torches-sprite4.png'},
+        {notation: level.notation['GEM'], src: 'gem.png'},
+        {notation: 15, src: 'enemy_anim_spread2.png'},
     ];
 
     images.forEach((val) => {
@@ -49,7 +49,7 @@ function drawBricks() {
         for (let cols = 0; cols < brick.cols; cols++) {
 
             let arrayIndex = rowColToArrayIndex(cols, rows);
-            let imageToDraw = imagesByCell.find(function(el) {
+            let imageToDraw = imagesByCell.find(function (el) {
                 return el.notation === level.currentLevel[arrayIndex];
             });
 
@@ -75,7 +75,7 @@ function drawBricks() {
                 }
             } else if (level.currentLevel[arrayIndex] === level.notation['INVENTORY']) {
                 // Show  items in inventory
-                let inventoryImages = inventory.map(function(el) {
+                let inventoryImages = inventory.map(function (el) {
                     return imagesByCell.find(e => {
                         return e.notation === el;
                     });
@@ -86,7 +86,7 @@ function drawBricks() {
                     inventoryImages.forEach((el) => {
 
                         // Veritically center inventory images - slightly to bottom :)
-                        ctx.drawImage(el.useImg, inventoryItemsMargin + brick_x, brick_y + brick.height/2 - el.useImg.height / 2 + (5));
+                        ctx.drawImage(el.useImg, inventoryItemsMargin + brick_x, brick_y + brick.height / 2 - el.useImg.height / 2 + (5));
                         inventoryItemsMargin += 50;
                         inventoryItemsCount--;
                     });

@@ -100,13 +100,8 @@ class Enemy extends Character
         }
     }
     hit() {
-        for( var i = 0; i < inventory.length; i++) {
-            if ( inventory[i] === 7) {
-                inventory.splice(i, 1);
-                break;
-            }
-        }
-        console.log('You got hit');
+        hero.health -= 3;
+        hero_health.value = hero.health;
 
     }
 }

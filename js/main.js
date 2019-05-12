@@ -13,19 +13,21 @@ let gameLaunched = false;
 
 let globalCounter = 0;
 
-let inventory = [7, 7, 7, 7, 7];
+let inventory = [];
 let cycle = 0;
 
 let imagesByCell = [];
 
 let canJump = true;
+let hero_health = document.getElementById("hero_health");
+let enemy_health = document.getElementById("enemy_health");
 
 window.onload = function() {
     launchGame();
 
     setInterval(function() {
         enemy.attack();
-    }, 500);
+    }, 1000);
 };
 
 function toggleSound()

@@ -43,6 +43,7 @@ class Character {
         if (this.constructor === Character) {
             throw new TypeError('Abstract class "Character" cannot be instantiated directly.');
         }
+        this.health = 100;
 
     }
 

@@ -103,6 +103,7 @@ class Hero extends Character {
     }
 
     hit() {
-        console.log('Enemy got hit!');
+        enemy.health -= 0.6;
+        enemy_health.value = enemy.health;
     }
 }
