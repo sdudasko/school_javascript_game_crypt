@@ -256,6 +256,9 @@ class Character {
         }
 
         this.handleAttack();
+        if (enemy.beingHit) {
+            // console.log('here');
+        }
 
         this.swordAngle += this.swordAngleRotation;
 
