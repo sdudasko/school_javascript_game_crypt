@@ -11,7 +11,7 @@ class Character {
      * @param imgSrc
      */
     constructor(
-        x, y, swordChased = false, hasSwordByDefault = false, turn = 'right', walkSpeed = 3, imgSrc
+        x, y, swordChased = false, hasSwordByDefault = false, turn = 'right', walkSpeed = 3, imgSrc, spawnLevel = 1
     ) {
         this.height = 80;
         this.width = 40;
@@ -44,6 +44,7 @@ class Character {
             throw new TypeError('Abstract class "Character" cannot be instantiated directly.');
         }
         this.health = 100;
+        this.spawnLevel = spawnLevel;
 
     }
 
@@ -140,7 +141,7 @@ class Character {
 
     onGround() {
 
-        let characterBrickCol = Math.floor(((this.x + this.width) / brick.width));
+        let characterBrickCol = Math.floor(((this.x - 30 + this.width) / brick.width));
         let characterBrickRow = Math.floor(((this.y - (this.height / 2)) / brick.height)) + 2;
 
         let curBrick = rowColToArrayIndex(characterBrickCol, characterBrickRow);
@@ -185,14 +186,7 @@ class Character {
             hero.speedX = this.walkBackSpeed;
         }
 
-        if (hero.x + 80 <= enemy.x) { // 80 - sword length
-            enemy.turn = 'left';
-            enemy.speedX = this.walkBackSpeed;
-
-        } else if (hero.x - 80 > enemy.x) {
-            enemy.turn = 'right';
-            enemy.speedX = this.walkSpeed;
-        }
+        this.enemyAIControl();
 
         if (hero.y < enemy.y) {
             enemy.jump('enemy');
@@ -236,7 +230,7 @@ class Character {
             canJump = true;
         }
 
-        if (this.speedX < 0 && this.onGround() && ((this.y + this.height - brick.height) % brick.height) !== 0) {
+        if (this.speedX <= 0 && this.onGround() && ((this.y + this.height - brick.height) % brick.height) !== 0) {
             canJump = false;
             this.x = (1 + Math.floor(this.x / brick.width)) * brick.width + (this.width);
             this.y += 5;
@@ -257,9 +251,6 @@ class Character {
         }
 
         this.handleAttack();
-        if (enemy.beingHit) {
-            // console.log('here');
-        }
 
         this.swordAngle += this.swordAngleRotation;
 
@@ -324,6 +315,19 @@ class Character {
     radians_to_degrees(radians) {
         var pi = Math.PI;
         return radians * (180 / pi);
+    }
+
+    enemyAIControl() {
+        if (
+            hero.x + 80 <= enemy.x
+        ) { // 80 - sword length
+            enemy.turn = 'left';
+            enemy.speedX = this.walkBackSpeed;
+
+        } else if (hero.x - 80 > enemy.x) {
+            enemy.turn = 'right';
+            enemy.speedX = this.walkSpeed;
+        }
     }
 
 }

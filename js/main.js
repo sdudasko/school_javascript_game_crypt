@@ -1,10 +1,10 @@
 let canvas, ctx;
 
-let hero = new Hero(200, 200);
-let enemy = new Enemy(500, 220, true, true, 'left', 2, 'enemy_anim_spread2.png');
-
 let brick = new Brick();
 let level = new Level();
+
+let hero = new Hero(200, 200);
+let enemy = new Enemy(700, 200, true, true, 'left', 2, 'enemy_anim_spread2.png', 2);
 
 let enableSound = true;
 let audioStarted = false;
@@ -88,8 +88,10 @@ function updateAll() {
     hero.drawCharacter();
     hero.move();
 
-    enemy.drawCharacter();
-    enemy.move();
+    if (level.currentLevel === level.levels[1]) {
+        enemy.drawCharacter();
+        enemy.move();
+    }
 
     globalCounter++;
 }

@@ -82,7 +82,7 @@ function drawBricks() {
                 });
 
                 if (inventoryImages && inventoryItemsCount > 0) {
-                    inventoryItemsMargin = 10;
+                    inventoryItemsMargin = 285;
                     inventoryImages.forEach((el) => {
 
                         // Veritically center inventory images - slightly to bottom :)
