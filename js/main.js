@@ -2,12 +2,9 @@ let canvas, ctx;
 
 let brick = new Brick();
 let level = new Level();
-
-
+let audio_volume = 0;
 let enableSound = true;
 let audioStarted = false;
-let audio;
-let gameLaunched = false;
 
 let globalCounter = 0;
 
@@ -22,8 +19,9 @@ let enemyAttackInterval, updateInterval;
 let canJump = true;
 let hero_health = document.getElementById("hero_health");
 let enemy_health = document.getElementById("enemy_health");
+let difficulty = 2;
 
-let minutesLabel, secondsLabel, totalSeconds;
+let totalSeconds;
 let currentLevel = 1;
 
 let enemies = [];
@@ -32,76 +30,35 @@ let menuScreensIds = [
     'defeat-screen',
     'screen-settings',
     'menu-screen',
+    'score-screen',
+    'settings-screen',
+    'instructions-screen',
 ];
+
 let menuScreens = [];
 let writeWaveNum = false;
 
-window.onload = function () {
+let prolog_audio = new Audio('sound/prolog.ogg');
 
+window.onload = function () {
     menuScreensIds.forEach(function (element, index) {
         menuScreens.push(document.getElementById(element));
     });
 
-    launchGame();
+    loadImages();
+    setTimeout(function () {
+        openMenuScreen('menu-screen');
+    }, 200);
+
+    prolog_audio = new Audio('sound/prolog.ogg');
+    prolog_audio.volume = audio_volume;
+    prolog_audio.play();
 };
-
-function toggleSound() {
-    if (!audioStarted) {
-        audio = new Audio('vitazstvo.ogg');
-        audio.play();
-        audioStarted = true;
-    }
-
-    if (enableSound === true) {
-        audio.volume = 0.6;
-    } else {
-        audio.volume = 0.0;
-    }
-    enableSound = !enableSound;
-}
-
-function openMenuScreen(open = '') {
-    menuScreens.filter(function (element, index) {
-        return element !== null;
-    }).forEach(function (element, index) {
-        element.classList.remove('visible');
-    });
-    document.getElementById(open).classList.add('visible');
-}
-
-function closeAllMenuScreens() {
-    menuScreens.filter(function (element, index) {
-        return element !== null;
-    }).forEach(function (element, index) {
-        element.classList.remove('visible');
-    });
-}
-
-function setUpTimer() {
-    // minutesLabel = document.getElementById("minutes");
-    // secondsLabel = document.getElementById("seconds");
-    totalSeconds = 0;
-    setInterval(setTime, 1000);
-
-    function setTime() {
-        ++totalSeconds;
-        // secondsLabel.innerHTML = pad(totalSeconds % 60);
-        // minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
-    }
-
-    function pad(val) {
-        var valString = val + "";
-        if (valString.length < 2) {
-            return "0" + valString;
-        } else {
-            return valString;
-        }
-    }
-}
 
 function launchGame() {
     resetAllVariables();
     setUpTimer();
+    prolog_audio.pause();
 
     hero = new Hero(200, 200);
 
@@ -136,15 +93,6 @@ function launchGame() {
 
 }
 
-
-function openMenu() {
-    openMenuScreen('menu-screen');
-}
-
-function rowColToArrayIndex(col, row) {
-    return brick.cols * row + col;
-}
-
 function resetAllVariables() {
     hero = undefined;
     enemies = [];
@@ -160,16 +108,7 @@ function resetAllVariables() {
     currentLevel = 1;
 }
 
-function openDefeatMenu() {
-    openMenuScreen('defeat-screen');
-}
-
-function openScore() {
-
-}
-
 function updateAll() {
-
     drawAll();
     let self = this;
 

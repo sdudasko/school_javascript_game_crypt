@@ -37,7 +37,7 @@ canvas {
     left: 0;
     width: 800px;
     height: 600px;
-    background-image: url(../img/p_b7.png);
+        background-image: url(../img/p_b7.png);
     z-index: 20;
     display: none;
 }
@@ -89,9 +89,16 @@ progress[value]::-webkit-progress-bar {
     color: #BD3239;
     text-align: center;
     margin: 0 auto;
-    padding-top: 160px;
+    padding-top: 50px;
     font-size: 56px;
 }
+.defeat-screen__heading-perex {
+    color: #683390;
+    font-size: 26px;
+    padding-top: 40px;
+    margin: 0 70px;
+}
+
 .defeat-screen__heading-score {
     color: #BD3239;
     text-align: center;
@@ -118,6 +125,7 @@ progress[value]::-webkit-progress-bar {
     filter: brightness(1.5);
     transition: .3s;
     transition-timing-function: ease-out;
+    cursor: pointer;
 }
 
 .menu-inner__list {
@@ -128,16 +136,103 @@ progress[value]::-webkit-progress-bar {
     align-items: center;
     padding: 0 0;
 }
-
+.menu-inner__list-score {
+    height: 30%;
+}
+.menu-inner__list-instructions {
+    height: 40%;
+}
 .menu-inner__list-item {
     margin: 10px 0;
     font-size: 32px;
+}
+.menu-inner__list-item-instructions {
+    font-size: 20px;
+}
+
+.menu-inner__list-item a {
+    text-decoration: none;
+    color: #683390;
+}
+
+.menu-inner__list-item a:hover {
+    color: #992B27;
+}
+.menu-inner__list-item-score {
+    color: #BD3239;
+    font-size: 24px;
+    margin: 5px 0;
+    font-weight: bold;
+}
+
+.score-form {
+    text-align: center;
+    margin-top: 40px;
+}
+.score-form input[type="text"] {
+    background: transparent;
+    font-size: 22px;
+    border: none;
+    border-bottom: 5px solid #992B27;
+    border-radius: 5px;
+    color: white;
+    opacity: .8;
+}
+
+.score-form input[type="text"]:active, .score-form input[type="text"]:focus, .score-form input[type="text"]:visited {
+    outline: none;
+}
+
+.score-form button[type="submit"] {
+    display: inline-block;
+    width: 92px;
+    border: none;
+    height: 45px;
+    font-size: 18px;
+    color: white;
+    border: 0;
+}
+.score-form__submit-btn-wrap {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.score-form input[type="text"]::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: white;
+}
+.score-form input[type="text"]::-moz-placeholder { /* Firefox 19+ */
+    color: white;
+}
+.score-form input[type="text"]:-ms-input-placeholder { /* IE 10+ */
+    color: white;
+}
+.score-form input[type="text"]:-moz-placeholder { /* Firefox 18- */
+    color: white;
+}
+
+.defeat-screen__actions-link-l {
+    margin-right: 5px;
+}
+.defeat-screen__actions-link-r {
+    margin-left: 5px;
+}
+
+.score-form button[type="submit"]:hover {
+    cursor: pointer;
+}
+
+.difficulty-level:hover {
+    cursor: pointer;
+}
+
+.difficulty--active {
+    background-image: url(../img/p_b7.png);
+    padding: 10px 5px;
+    border-radius: 4px;
+    display: inline-block;
+    background-size: contain;
 }
 
 .visible {
     display: block;
 }
-
-/*.health_progress {*/
-    /*background-color: red;*/
-/*}*/

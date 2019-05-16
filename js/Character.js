@@ -127,14 +127,14 @@ class Character {
 
     }
 
-    jump(type = null) {
+    jump(type = null, el) {
         if (type === 'enemy') {
-            enemies.forEach(function (e, i) {
-                if (!e.jumping) {
-                    e.speedY = -16;
-                    e.jumping = true;
+            // enemies.forEach(function (e, i) {
+                if (!el.jumping) {
+                    el.speedY = -16;
+                    el.jumping = true;
                 }
-            });
+            // });
         } else {
             if (!hero.jumping) {
                 hero.speedY = -16;
@@ -193,11 +193,11 @@ class Character {
         if (enemies.length > 0) {
             this.enemyAIControl();
 
-            // enemies.forEach(function (e, i) {
-            //     if (hero.y < e.y) {
-            //         e.jump('enemy');
-            //     }
-            // })
+            enemies.forEach(function (e, i) {
+                if (hero.y < e.y) {
+                    e.jump('enemy', e);
+                }
+            })
 
         }
 

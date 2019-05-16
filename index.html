@@ -6,8 +6,6 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css?family=Macondo+Swash+Caps" rel="stylesheet">
-
-
 </head>
 <body>
 
@@ -15,15 +13,97 @@
     <canvas id="gameCanvas" width="800" height="600"></canvas>
 
     <div id="menu" class="menu-btn" onclick="openMenu()">Menu</div>
+
     <div class="menu" id="defeat-screen">
         <div class="menu-inner">
             <h2 class="defeat-screen__heading">Game over!</h2>
             <h3 class="defeat-screen__heading-score">Waves survived: <span id="score-text-points"></span></h3>
             <h3 class="defeat-screen__heading-score">Seconds elapsed: <span id="score-text-time-elapsed"></span></h3>
 
+            <form action="" class="score-form" id="score-form">
+                <input type="text" placeholder="Name of the hero..." id="hero-name-score">
+
+                <div class="score-form__submit-btn-wrap">
+                    <button type="submit" class="defeat-screen__actions-link">OK!</button>
+                </div>
+            </form>
+
+
+            <div class="defeat-screen__actions">
+                <a href="#" class="defeat-screen__actions-link defeat-screen__actions-link-l" onclick="openMenu()">Go to
+                    menu</a>
+                <a href="#" class="defeat-screen__actions-link defeat-screen__actions-link-r" onclick="launchGame()">Play
+                    again</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu score-screen" id="score-screen">
+        <div class="menu-inner">
+            <h2 class="defeat-screen__heading">Score</h2>
+            <h3 class="defeat-screen__heading defeat-screen__heading-perex">
+                Only mighty warriors who survived endless waves of enemies have the honor to be reminded on this walls
+                of heroes.
+            </h3>
+
+            <ul class="menu-inner__list menu-inner__list-score" id="score-list">
+                <li class="menu-inner__list-item"><a href="#" class="score-player"></a></li>
+            </ul>
+
             <div class="defeat-screen__actions">
                 <a href="#" class="defeat-screen__actions-link" onclick="openMenu()">Go to menu</a>
-                <a href="#" class="defeat-screen__actions-link" onclick="launchGame()">Play again</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu instructions-screen" id="instructions-screen">
+        <div class="menu-inner">
+            <h2 class="defeat-screen__heading">Instruction</h2>
+            <p class="defeat-screen__heading defeat-screen__heading-perex" style="font-size: 18px">
+                This secret place will introduce you everything you shall use in the combat which consists of
+                combat controls, sword usage you will need to perform common obligations when facing the evil.
+                <br>
+                Good luck!
+            </p>
+
+            <ul class="menu-inner__list menu-inner__list-instructions" style="color: white">
+                <li class="menu-inner__list-item menu-inner__list-item-instructions">Up: ↑</li>
+                <li class="menu-inner__list-item menu-inner__list-item-instructions">Right: →</li>
+                <li class="menu-inner__list-item menu-inner__list-item-instructions">Left: ←</li>
+                <li class="menu-inner__list-item menu-inner__list-item-instructions">Take sword: ↓</li>
+                <li class="menu-inner__list-item menu-inner__list-item-instructions">Chase sword: space</li>
+            </ul>
+
+            <div class="defeat-screen__actions">
+                <a href="#" class="defeat-screen__actions-link" onclick="openMenu()">Go to menu</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu" id="settings-screen">
+        <div class="menu-inner">
+            <h2 class="defeat-screen__heading">Settings</h2>
+            <p class="defeat-screen__heading defeat-screen__heading-perex" style="font-size: 18px">
+                You fear the mistic sounds of silence when passing the halls? You do not want to hear the scream of the
+                evil surrounding you?
+                Or you just do think you can survive so many enemies when getting deeper into the shadows? Great! You
+                are in the right place!
+            </p>
+
+            <ul class="menu-inner__list menu-inner__list-instructions" style="color: white">
+                <li class="menu-inner__list-item menu-inner__list-item-instructions">Turn on/off sound:
+                    <a href="#" onclick="toggleSound()">on/off</a>
+                </li>
+                <li class="menu-inner__list-item menu-inner__list-item-instructions">
+                    Difficulty:
+                    <span class="difficulty-level" id="difficulty-easy">easy</span>
+                    <span class="difficulty-level" id="difficulty-normal">normal</span>
+                    <span class="difficulty-level" id="difficulty-hard">hard</span>
+                </li>
+            </ul>
+
+            <div class="defeat-screen__actions">
+                <a href="#" class="defeat-screen__actions-link" onclick="openMenu()">Go to menu</a>
             </div>
         </div>
     </div>
@@ -33,6 +113,8 @@
             <ul class="menu-inner__list">
                 <li class="menu-inner__list-item"><a href="#" id="play" onclick="launchGame()">Play</a></li>
                 <li class="menu-inner__list-item"><a href="#" id="score" onclick="openScore()">Score</a></li>
+                <li class="menu-inner__list-item"><a href="#" id="instructions" onclick="openInstructions()">Instructions</a>
+                </li>
                 <li class="menu-inner__list-item"><a href="#" id="settings" onclick="openSettings()">Settings</a></li>
             </ul>
         </div>
@@ -52,9 +134,10 @@
 <script src="js/Level.js"></script>
 
 <script src="js/Graphic.js"></script>
-<script src="js/Input.js"></script>
+<script src="js/Controller.js"></script>
 <script src="js/Hero.js"></script>
 <script src="js/main.js"></script>
+<script src="js/View.js"></script>
 
 </body>
 </html>

@@ -29,7 +29,12 @@ class Enemy extends Character {
 
                 if (enemies.length > 0 && hero.turn === 'left') {
                     if (
-                        swordCoordsWhenAttacking['x'] >= hero.x - hero.width &&
+                        (
+                            swordCoordsWhenAttacking['x'] >= hero.x - hero.width
+                            // &&
+                            // swordCoordsWhenAttacking['x'] < hero.x - hero.width
+                        )
+                        &&
                         (
                             swordCoordsWhenAttacking['y'] <= hero.y + hero.height && // We are higher or on the same height as the hero
                             swordCoordsWhenAttacking['y'] > hero.y - hero.height
@@ -39,7 +44,11 @@ class Enemy extends Character {
                     }
                 } else {
                     if (
-                        swordCoordsWhenAttacking['x'] >= hero.x &&
+                        (
+                            swordCoordsWhenAttacking['x'] >= hero.x
+                            &&
+                            swordCoordsWhenAttacking['x'] >= hero.x
+                        ) &&
                         (
                             swordCoordsWhenAttacking['y'] <= hero.y + hero.height && // We are higher or on the same height as the hero
                             swordCoordsWhenAttacking['y'] > hero.y - hero.height
@@ -100,12 +109,18 @@ class Enemy extends Character {
     }
 
     hit() {
-        hero.health -= 0.1;
+        hero.health -= .2;
         hero_health.value = hero.health;
         if (hero.health <= 0) {
-            document.getElementById('score-text-points').innerHTML = romanize(currentLevel-1);
+            document.getElementById('score-text-points').innerHTML = romanize(currentLevel - 1);
             document.getElementById('score-text-time-elapsed').innerHTML = totalSeconds;
             openMenuScreen('defeat-screen');
+            localStorage.setItem('lastCurrentLevel', currentLevel);
+
+            let die_sound = new Audio('sound/nebezpecenstvo.ogg');
+            die_sound.volume = audio_volume;
+            die_sound.play();
+
             resetAllVariables();
         }
 

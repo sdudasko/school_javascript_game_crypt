@@ -1,4 +1,11 @@
 let sword_width = 13;
+let wave_ended_sound = new Audio('sound/smrt_nehodou.ogg');
+
+const difficulty_multiplier = {
+    1: 1.5,
+    2: 2.2,
+    3: 3
+};
 
 class Hero extends Character {
 
@@ -34,7 +41,11 @@ class Hero extends Character {
                 enemies.forEach(function (enemy, index) {
                     if (enemy.turn === 'left') {
                         if (
-                            swordCoordsWhenAttacking['x'] >= enemy.x - enemy.width &&
+                            (
+                                swordCoordsWhenAttacking['x'] >= enemy.x - enemy.width &&
+                                swordCoordsWhenAttacking['x'] <= enemy.x
+                            )
+                            &&
                             (
                                 swordCoordsWhenAttacking['y'] <= enemy.y + enemy.height && // We are higher or on the same height as the enemy
                                 swordCoordsWhenAttacking['y'] > enemy.y - enemy.height
@@ -45,7 +56,10 @@ class Hero extends Character {
                     } else {
                         if (enemies.length > 0)
                             if (
-                                swordCoordsWhenAttacking['x'] >= enemy.x &&
+                                (
+                                    swordCoordsWhenAttacking['x'] >= enemy.x &&
+                                    swordCoordsWhenAttacking['x'] < enemy.x + enemy.width
+                                ) &&
                                 (
                                     swordCoordsWhenAttacking['y'] <= enemy.y + enemy.height && // We are higher or on the same height as the enemy
                                     swordCoordsWhenAttacking['y'] > enemy.y - enemy.height
@@ -116,7 +130,7 @@ class Hero extends Character {
             let foundEnemyIndex = enemies.indexOf(foundEnemy);
 
             if (level.currentLevel === level.levels[1]) {
-                foundEnemy.health -= 5;
+                foundEnemy.health -= 3.5;
                 enemy_health.value = foundEnemy.health;
             }
 
@@ -125,15 +139,16 @@ class Hero extends Character {
 
             }
             if (enemies.length === 0) {
+                wave_ended_sound.play();
+                wave_ended_sound.volume = audio_volume;
                 enemy_health.value = 100;
                 currentLevel++;
                 writeWaveNum = true;
-                setTimeout(function() {
-                    for (let i = 1; i <= currentLevel * 2; i++) {
-                        console.log(Math.random());
+                setTimeout(function () {
+                    for (let i = 1; i <= currentLevel * difficulty_multiplier[difficulty]; i++) {
+
                         let xPos = (Math.random() * 7) * 100;
                         let yPos = (Math.random() * 3) * 100;
-                        console.log(xPos);
 
                         enemies.push(
                             new Enemy(
@@ -141,7 +156,7 @@ class Hero extends Character {
                             ),
                         );
                     }
-                }, 4000);
+                }, 3000);
             }
         }
     }
