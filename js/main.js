@@ -23,6 +23,8 @@ let canJump = true;
 let hero_health = document.getElementById("hero_health");
 let enemy_health = document.getElementById("enemy_health");
 
+let minutesLabel, secondsLabel, totalSeconds;
+
 let menuScreensIds = [
     'defeat-screen',
     'screen-settings',
@@ -71,7 +73,31 @@ function closeAllMenuScreens() {
     });
 }
 
+function setUpTimer() {
+    // minutesLabel = document.getElementById("minutes");
+    // secondsLabel = document.getElementById("seconds");
+    totalSeconds = 0;
+    setInterval(setTime, 1000);
+
+    function setTime() {
+        ++totalSeconds;
+        // secondsLabel.innerHTML = pad(totalSeconds % 60);
+        // minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+    }
+
+    function pad(val) {
+        var valString = val + "";
+        if (valString.length < 2) {
+            return "0" + valString;
+        } else {
+            return valString;
+        }
+    }
+}
+
 function launchGame() {
+    resetAllVariables();
+    setUpTimer();
 
     hero = new Hero(200, 200);
     enemy = new Enemy(700, 200, true, true, 'left', 2, 'enemy_anim_spread2.png', 2);
@@ -80,6 +106,7 @@ function launchGame() {
 
     canvas = document.getElementById('gameCanvas');
     ctx = canvas.getContext('2d');
+
     loadImages();
 
     enemyAttackInterval = setInterval(function () {
@@ -88,7 +115,7 @@ function launchGame() {
     }, 1000);
 
     let fps = 60;
-    clearInterval(updateInterval);
+
     updateInterval = setInterval(updateAll, 1000 / fps);
 
     x = canvas.width / 2;
@@ -113,6 +140,13 @@ function resetAllVariables() {
     enemy = undefined;
     clearInterval(enemyAttackInterval);
     clearInterval(updateInterval);
+
+    [...document.getElementsByTagName('progress')
+        ].forEach(function(element, index) {
+            element.setAttribute('value', 100);
+
+        });
+    level.currentLevel = level.levels[0];
 }
 
 function openDefeatMenu() {
@@ -120,18 +154,20 @@ function openDefeatMenu() {
 }
 
 function openScore() {
-    
+
 }
 
 function updateAll() {
 
     drawAll();
 
+    if (totalSeconds <= 1)
+        drawText('|');
+
     if (hero !== undefined) {
         hero.drawCharacter();
         hero.move();
     }
-
     if (enemy !== undefined) {
         if (level.currentLevel === level.levels[1]) {
             enemy.drawCharacter();

@@ -100,3 +100,10 @@ function drawBricks() {
         brick_x = 0;
     }
 }
+
+function drawText(text) {
+    ctx.font = "52px Macondo Swash Caps";
+    ctx.fillStyle = "red";
+    ctx.textAlign = "center";
+    ctx.fillText(text, canvas.width/2, canvas.height/2);
+}

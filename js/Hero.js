@@ -30,7 +30,7 @@ class Hero extends Character {
                     this.attacking = false;
                 }
 
-                if (enemy.turn === 'left') {
+                if (enemy !== undefined && enemy.turn === 'left') {
                     if (
                         swordCoordsWhenAttacking['x'] >= enemy.x - enemy.width &&
                         (
@@ -41,15 +41,16 @@ class Hero extends Character {
                         this.hit();
                     }
                 } else {
-                    if (
-                        swordCoordsWhenAttacking['x'] >= enemy.x &&
-                        (
-                            swordCoordsWhenAttacking['y'] <= enemy.y + enemy.height && // We are higher or on the same height as the enemy
-                            swordCoordsWhenAttacking['y'] > enemy.y - enemy.height
-                        )
-                    ) {
-                        this.hit();
-                    }
+                    if (enemy !== undefined)
+                        if (
+                            swordCoordsWhenAttacking['x'] >= enemy.x &&
+                            (
+                                swordCoordsWhenAttacking['y'] <= enemy.y + enemy.height && // We are higher or on the same height as the enemy
+                                swordCoordsWhenAttacking['y'] > enemy.y - enemy.height
+                            )
+                        ) {
+                            this.hit();
+                        }
                 }
 
             } else {
@@ -72,7 +73,7 @@ class Hero extends Character {
                     this.attacking = false;
                 }
 
-                if (enemy.turn === 'left') {
+                if (enemy !== undefined && enemy.turn === 'left') {
                     if (
                         (
                             swordCoordsWhenAttacking['x'] <= enemy.x + enemy.width &&
@@ -85,25 +86,34 @@ class Hero extends Character {
                         this.hit();
                     }
                 } else {
-                    if (
-                        (
-                            swordCoordsWhenAttacking['x'] >= enemy.x &&
-                            swordCoordsWhenAttacking['x'] < enemy.x + enemy.width
-                        ) &&
-                        (
-                            swordCoordsWhenAttacking['y'] <= enemy.y + enemy.height && // We are higher or on the same height as the enemy
-                            swordCoordsWhenAttacking['y'] > enemy.y - enemy.height
-                        )
-                    ) {
-                        this.hit();
-                    }
+                    if (enemy !== undefined)
+                        if (
+                            (
+                                swordCoordsWhenAttacking['x'] >= enemy.x &&
+                                swordCoordsWhenAttacking['x'] < enemy.x + enemy.width
+                            ) &&
+                            (
+                                swordCoordsWhenAttacking['y'] <= enemy.y + enemy.height && // We are higher or on the same height as the enemy
+                                swordCoordsWhenAttacking['y'] > enemy.y - enemy.height
+                            )
+                        ) {
+                            this.hit();
+                        }
                 }
             }
         }
     }
 
     hit() {
-        enemy.health -= 0.6;
+        // enemy.health -= 0.6;
+        enemy.health -= 10;
         enemy_health.value = enemy.health;
+
+        if (enemy.health <= 0) {
+            enemy = undefined;
+            hero.attacking = false;
+            hero.swordAngle = -Math.PI / 2;
+            hero.swordAngleRotation = 0;
+        }
     }
 }

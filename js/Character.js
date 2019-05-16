@@ -186,10 +186,13 @@ class Character {
             hero.speedX = this.walkBackSpeed;
         }
 
-        this.enemyAIControl();
+        if (enemy !== undefined) {
+            this.enemyAIControl();
 
-        if (hero.y < enemy.y) {
-            enemy.jump('enemy');
+            if (hero.y < enemy.y) {
+                enemy.jump('enemy');
+            }
+
         }
 
         if (heldKeyRight) {
@@ -320,15 +323,17 @@ class Character {
     }
 
     enemyAIControl() {
-        if (
-            hero.x + 80 <= enemy.x
-        ) { // 80 - sword length
-            enemy.turn = 'left';
-            enemy.speedX = this.walkBackSpeed;
+        if (enemy !== undefined) {
+            if (
+                hero.x + 80 <= enemy.x
+            ) { // 80 - sword length
+                enemy.turn = 'left';
+                enemy.speedX = this.walkBackSpeed;
 
-        } else if (hero.x - 80 > enemy.x) {
-            enemy.turn = 'right';
-            enemy.speedX = this.walkSpeed;
+            } else if (hero.x - 80 > enemy.x) {
+                enemy.turn = 'right';
+                enemy.speedX = this.walkSpeed;
+            }
         }
     }
 
