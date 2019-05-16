@@ -115,8 +115,10 @@ class Hero extends Character {
             let foundEnemy = enemies.find(o => o.id === enemy.id);
             let foundEnemyIndex = enemies.indexOf(foundEnemy);
 
-            foundEnemy.health -= 5;
-            enemy_health.value = foundEnemy.health;
+            if (level.currentLevel === level.levels[1]) {
+                foundEnemy.health -= 5;
+                enemy_health.value = foundEnemy.health;
+            }
 
             if (foundEnemy.health <= 0) {
                 enemies.splice(foundEnemyIndex, 1);
