@@ -49,6 +49,31 @@ function keyPressReset(e) {
     }
 }
 
+document.getElementById('score-form')
+    .addEventListener('submit', function (e) {
+        resetAllVariables();
+        e.preventDefault();
+        closeAllMenuScreens('score');
+
+        let heroName = document.getElementById('hero-name-score').value;
+
+        let hero = {
+            name: heroName,
+            wavesSurvived: localStorage.getItem('lastCurrentLevel') - 1,
+            secondsElapsed: totalSeconds
+        };
+
+        let best_players = localStorage.getItem('best_players')
+            ? JSON.parse(localStorage.getItem('best_players'))
+            : [];
+        localStorage.setItem('best_players', JSON.stringify(best_players));
+        best_players.push(hero);
+        localStorage.setItem('best_players', JSON.stringify(best_players));
+
+        openMenuScreen('menu-screen');
+
+    });
+
 [...document.getElementsByClassName('difficulty-level')]
     .forEach(function (element) {
 
