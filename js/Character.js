@@ -13,6 +13,7 @@ class Character {
     constructor(
         x, y, swordChased = false, hasSwordByDefault = false, turn = 'right', walkSpeed = 3, imgSrc, spawnLevel = 1
     ) {
+        this.id = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
         this.height = 80;
         this.width = 40;
         this.speedX = 0;
@@ -83,11 +84,12 @@ class Character {
         let spriteW = 37, spriteH = 80;
 
         if (this.type === 'enemy') {
-            if (hero.x + 25 <= enemy.x) {
-                this.startingY = 80;
-            } else {
-                this.startingY = 0;
-            }
+            if (enemies.length !== 0)
+                if (hero.x + 25 <= enemies[0].x) {
+                    this.startingY = 80;
+                } else {
+                    this.startingY = 0;
+                }
         } else {
             if (heldKeyLeft && !heldKeyRight) {
                 this.startingY = 80;
@@ -127,10 +129,12 @@ class Character {
 
     jump(type = null) {
         if (type === 'enemy') {
-            if (!enemy.jumping) {
-                enemy.speedY = -16;
-                enemy.jumping = true;
-            }
+            enemies.forEach(function (e, i) {
+                if (!e.jumping) {
+                    e.speedY = -16;
+                    e.jumping = true;
+                }
+            });
         } else {
             if (!hero.jumping) {
                 hero.speedY = -16;
@@ -186,12 +190,14 @@ class Character {
             hero.speedX = this.walkBackSpeed;
         }
 
-        if (enemy !== undefined) {
+        if (enemies.length > 0) {
             this.enemyAIControl();
 
-            if (hero.y < enemy.y) {
-                enemy.jump('enemy');
-            }
+            enemies.forEach(function (e, i) {
+                if (hero.y < e.y) {
+                    e.jump('enemy');
+                }
+            })
 
         }
 
@@ -323,17 +329,20 @@ class Character {
     }
 
     enemyAIControl() {
-        if (enemy !== undefined) {
-            if (
-                hero.x + 80 <= enemy.x
-            ) { // 80 - sword length
-                enemy.turn = 'left';
-                enemy.speedX = this.walkBackSpeed;
+        let self = this;
+        if (enemies.length > 0) {
+            enemies.forEach(function (element, index) {
+                if (
+                    hero.x + 80 <= element.x
+                ) { // 80 - sword length
+                    element.turn = 'left';
+                    element.speedX = self.walkBackSpeed;
 
-            } else if (hero.x - 80 > enemy.x) {
-                enemy.turn = 'right';
-                enemy.speedX = this.walkSpeed;
-            }
+                } else if (hero.x - 80 > element.x) {
+                    element.turn = 'right';
+                    element.speedX = self.walkSpeed;
+                }
+            });
         }
     }
 

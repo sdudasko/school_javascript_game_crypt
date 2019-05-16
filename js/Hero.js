@@ -30,28 +30,31 @@ class Hero extends Character {
                     this.attacking = false;
                 }
 
-                if (enemy !== undefined && enemy.turn === 'left') {
-                    if (
-                        swordCoordsWhenAttacking['x'] >= enemy.x - enemy.width &&
-                        (
-                            swordCoordsWhenAttacking['y'] <= enemy.y + enemy.height && // We are higher or on the same height as the enemy
-                            swordCoordsWhenAttacking['y'] > enemy.y - enemy.height
-                        )
-                    ) {
-                        this.hit();
-                    }
-                } else {
-                    if (enemy !== undefined)
+                let self = this;
+                enemies.forEach(function (enemy, index) {
+                    if (enemy.turn === 'left') {
                         if (
-                            swordCoordsWhenAttacking['x'] >= enemy.x &&
+                            swordCoordsWhenAttacking['x'] >= enemy.x - enemy.width &&
                             (
                                 swordCoordsWhenAttacking['y'] <= enemy.y + enemy.height && // We are higher or on the same height as the enemy
                                 swordCoordsWhenAttacking['y'] > enemy.y - enemy.height
                             )
                         ) {
-                            this.hit();
+                            self.hit(enemy);
                         }
-                }
+                    } else {
+                        if (enemies.length > 0)
+                            if (
+                                swordCoordsWhenAttacking['x'] >= enemy.x &&
+                                (
+                                    swordCoordsWhenAttacking['y'] <= enemy.y + enemy.height && // We are higher or on the same height as the enemy
+                                    swordCoordsWhenAttacking['y'] > enemy.y - enemy.height
+                                )
+                            ) {
+                                self.hit(enemy);
+                            }
+                    }
+                });
 
             } else {
 
@@ -73,47 +76,67 @@ class Hero extends Character {
                     this.attacking = false;
                 }
 
-                if (enemy !== undefined && enemy.turn === 'left') {
-                    if (
-                        (
-                            swordCoordsWhenAttacking['x'] <= enemy.x + enemy.width &&
-                            swordCoordsWhenAttacking['x'] + this.width >= enemy.x
-                        ) && (
-                            swordCoordsWhenAttacking['y'] <= enemy.y + enemy.height && // We are higher or on the same height as the enemy
-                            swordCoordsWhenAttacking['y'] > enemy.y - enemy.height
-                        )
-                    ) {
-                        this.hit();
-                    }
-                } else {
-                    if (enemy !== undefined)
+                let self = this;
+                enemies.forEach(function (enemy, index) {
+                    if (enemies.length > 0 && enemy.turn === 'left') {
                         if (
                             (
-                                swordCoordsWhenAttacking['x'] >= enemy.x &&
-                                swordCoordsWhenAttacking['x'] < enemy.x + enemy.width
-                            ) &&
-                            (
+                                swordCoordsWhenAttacking['x'] <= enemy.x + enemy.width &&
+                                swordCoordsWhenAttacking['x'] + self.width >= enemy.x
+                            ) && (
                                 swordCoordsWhenAttacking['y'] <= enemy.y + enemy.height && // We are higher or on the same height as the enemy
                                 swordCoordsWhenAttacking['y'] > enemy.y - enemy.height
                             )
                         ) {
-                            this.hit();
+                            self.hit(enemy);
                         }
-                }
+                    } else {
+                        if (enemies.length > 0)
+                            if (
+                                (
+                                    swordCoordsWhenAttacking['x'] >= enemy.x &&
+                                    swordCoordsWhenAttacking['x'] < enemy.x + enemy.width
+                                ) &&
+                                (
+                                    swordCoordsWhenAttacking['y'] <= enemy.y + enemy.height && // We are higher or on the same height as the enemy
+                                    swordCoordsWhenAttacking['y'] > enemy.y - enemy.height
+                                )
+                            ) {
+                                self.hit(enemy);
+                            }
+                    }
+                });
             }
         }
     }
 
-    hit() {
-        // enemy.health -= 0.6;
-        enemy.health -= 10;
-        enemy_health.value = enemy.health;
+    hit(enemy) {
+        if (this.swordChased) {
+            let foundEnemy = enemies.find(o => o.id === enemy.id);
+            let foundEnemyIndex = enemies.indexOf(foundEnemy);
 
-        if (enemy.health <= 0) {
-            enemy = undefined;
-            hero.attacking = false;
-            hero.swordAngle = -Math.PI / 2;
-            hero.swordAngleRotation = 0;
+            foundEnemy.health -= 5;
+            enemy_health.value = foundEnemy.health;
+
+            if (foundEnemy.health <= 0) {
+                enemies.splice(foundEnemyIndex, 1);
+
+            }
+            if (enemies.length === 0) {
+                enemy_health.value = 100;
+                currentLevel++;
+
+                for (let i = 1; i <= currentLevel * 2; i++) {
+                    let xPos = (Math.floor(Math.random() * 7) + 1) * 100;
+                    console.log(xPos);
+                    enemies.push(
+                        new Enemy(
+                            xPos,
+                            200, true, true, 'left', 2, 'enemy_anim_spread2.png', 2
+                        ),
+                    );
+                }
+            }
         }
     }
 }

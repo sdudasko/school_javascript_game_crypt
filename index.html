@@ -19,8 +19,8 @@
     <div class="menu" id="defeat-screen">
         <div class="menu-inner">
             <h2 class="defeat-screen__heading">Game over!</h2>
-            <h3 class="defeat-screen__heading-score">Waves survived: <span id="score-text-points">|||</span></h3>
-            <h3 class="defeat-screen__heading-score">Time elapsed: <span id="score-text-time-elapsed">1:26</span></h3>
+            <h3 class="defeat-screen__heading-score">Waves survived: <span id="score-text-points"></span></h3>
+            <h3 class="defeat-screen__heading-score">Seconds elapsed: <span id="score-text-time-elapsed"></span></h3>
 
             <div class="defeat-screen__actions">
                 <a href="#" class="defeat-screen__actions-link" onclick="openMenu()">Go to menu</a>
@@ -41,13 +41,6 @@
     <progress value="100" max="100" id="hero_health" class="health_progress hero_health_progress"></progress>
     <progress value="100" max="100" id="enemy_health" class="health_progress enemy_health_progress"></progress>
 </div>
-
-<!--<div class="settings-screen" id="settings-screen">-->
-<!--<ul class="score-table__list">-->
-<!--<li class="score-table__list">Zvuk: <span onclick="toggleSound()">🔊</span></li>-->
-<!--<li class="score-table__list">Obtiažnosť:</li>-->
-<!--</ul>-->
-<!--</div>-->
 
 <script src="js/helpers.js"></script>
 <script src="js/Settings.js"></script>

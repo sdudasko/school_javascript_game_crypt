@@ -14,7 +14,7 @@ let globalCounter = 0;
 let inventory = [];
 let cycle = 0;
 
-let hero, enemy;
+let hero;
 
 let imagesByCell = [];
 let enemyAttackInterval, updateInterval;
@@ -24,6 +24,9 @@ let hero_health = document.getElementById("hero_health");
 let enemy_health = document.getElementById("enemy_health");
 
 let minutesLabel, secondsLabel, totalSeconds;
+let currentLevel = 1;
+
+let enemies = [];
 
 let menuScreensIds = [
     'defeat-screen',
@@ -100,7 +103,10 @@ function launchGame() {
     setUpTimer();
 
     hero = new Hero(200, 200);
-    enemy = new Enemy(700, 200, true, true, 'left', 2, 'enemy_anim_spread2.png', 2);
+
+    enemies.push(
+        new Enemy(350, 200, true, true, 'left', 2, 'enemy_anim_spread2.png', 2),
+    );
 
     closeAllMenuScreens();
 
@@ -110,8 +116,11 @@ function launchGame() {
     loadImages();
 
     enemyAttackInterval = setInterval(function () {
-        if (enemy !== undefined)
-            enemy.attack();
+        if (enemies.length > 0)
+            enemies
+                .forEach(function (e, i) {
+                    e.attack();
+                })
     }, 1000);
 
     let fps = 60;
@@ -137,16 +146,17 @@ function rowColToArrayIndex(col, row) {
 
 function resetAllVariables() {
     hero = undefined;
-    enemy = undefined;
+    enemies = [];
     clearInterval(enemyAttackInterval);
     clearInterval(updateInterval);
 
     [...document.getElementsByTagName('progress')
-        ].forEach(function(element, index) {
-            element.setAttribute('value', 100);
+    ].forEach(function (element, index) {
+        element.setAttribute('value', 100);
 
-        });
+    });
     level.currentLevel = level.levels[0];
+    currentLevel = 1;
 }
 
 function openDefeatMenu() {
@@ -160,6 +170,7 @@ function openScore() {
 function updateAll() {
 
     drawAll();
+    let self = this;
 
     if (totalSeconds <= 1)
         drawText('|');
@@ -168,10 +179,12 @@ function updateAll() {
         hero.drawCharacter();
         hero.move();
     }
-    if (enemy !== undefined) {
+    if (enemies.length > 0) {
         if (level.currentLevel === level.levels[1]) {
-            enemy.drawCharacter();
-            enemy.move();
+            enemies.forEach(function (element, index) {
+                element.drawCharacter();
+                element.move();
+            });
         }
     }
 

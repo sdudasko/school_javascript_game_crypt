@@ -1,5 +1,4 @@
-class Enemy extends Character
-{
+class Enemy extends Character {
     constructor(...props) {
         super(...props);
 
@@ -28,7 +27,7 @@ class Enemy extends Character
                     this.attacking = false;
                 }
 
-                if (hero.turn === 'left') {
+                if (enemies.length > 0 && hero.turn === 'left') {
                     if (
                         swordCoordsWhenAttacking['x'] >= hero.x - hero.width &&
                         (
@@ -70,7 +69,7 @@ class Enemy extends Character
                     this.attacking = false;
                 }
 
-                if (hero.turn === 'left') {
+                if (enemies.length > 0 && hero.turn === 'left') {
                     if (
                         (
                             swordCoordsWhenAttacking['x'] <= hero.x + hero.width &&
@@ -99,10 +98,13 @@ class Enemy extends Character
             }
         }
     }
+
     hit() {
-        hero.health -= 3;
+        hero.health -= 5;
         hero_health.value = hero.health;
         if (hero.health <= 0) {
+            document.getElementById('score-text-points').innerHTML = romanize(currentLevel-1);
+            document.getElementById('score-text-time-elapsed').innerHTML = totalSeconds;
             openMenuScreen('defeat-screen');
             resetAllVariables();
         }
