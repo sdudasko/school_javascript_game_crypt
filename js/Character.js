@@ -193,11 +193,11 @@ class Character {
         if (enemies.length > 0) {
             this.enemyAIControl();
 
-            enemies.forEach(function (e, i) {
-                if (hero.y < e.y) {
-                    e.jump('enemy');
-                }
-            })
+            // enemies.forEach(function (e, i) {
+            //     if (hero.y < e.y) {
+            //         e.jump('enemy');
+            //     }
+            // })
 
         }
 

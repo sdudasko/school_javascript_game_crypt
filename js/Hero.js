@@ -127,17 +127,21 @@ class Hero extends Character {
             if (enemies.length === 0) {
                 enemy_health.value = 100;
                 currentLevel++;
+                writeWaveNum = true;
+                setTimeout(function() {
+                    for (let i = 1; i <= currentLevel * 2; i++) {
+                        console.log(Math.random());
+                        let xPos = (Math.random() * 7) * 100;
+                        let yPos = (Math.random() * 3) * 100;
+                        console.log(xPos);
 
-                for (let i = 1; i <= currentLevel * 2; i++) {
-                    let xPos = (Math.floor(Math.random() * 7) + 1) * 100;
-                    console.log(xPos);
-                    enemies.push(
-                        new Enemy(
-                            xPos,
-                            200, true, true, 'left', 2, 'enemy_anim_spread2.png', 2
-                        ),
-                    );
-                }
+                        enemies.push(
+                            new Enemy(
+                                xPos, yPos, true, true, 'left', 2, 'enemy_anim_spread2.png', 2
+                            ),
+                        );
+                    }
+                }, 4000);
             }
         }
     }

@@ -34,6 +34,7 @@ let menuScreensIds = [
     'menu-screen',
 ];
 let menuScreens = [];
+let writeWaveNum = false;
 
 window.onload = function () {
 
@@ -174,6 +175,14 @@ function updateAll() {
 
     if (totalSeconds <= 1)
         drawText('|');
+
+    if (writeWaveNum) {
+        drawText(romanize(currentLevel));
+        setTimeout(function () {
+            writeWaveNum = false;
+        }, 2500);
+    }
+
 
     if (hero !== undefined) {
         hero.drawCharacter();

@@ -100,7 +100,7 @@ class Enemy extends Character {
     }
 
     hit() {
-        hero.health -= 5;
+        hero.health -= 0.1;
         hero_health.value = hero.health;
         if (hero.health <= 0) {
             document.getElementById('score-text-points').innerHTML = romanize(currentLevel-1);
