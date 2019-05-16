@@ -102,6 +102,10 @@ class Enemy extends Character
     hit() {
         hero.health -= 3;
         hero_health.value = hero.health;
+        if (hero.health <= 0) {
+            openMenuScreen('defeat-screen');
+            resetAllVariables();
+        }
 
     }
 }

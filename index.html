@@ -5,44 +5,51 @@
     <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/styles.css">
+    <!--<link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">-->
+    <link href="https://fonts.googleapis.com/css?family=Macondo+Swash+Caps" rel="stylesheet">
+
+
 </head>
 <body>
 
 <div id="gameContainer" class="gameContainer">
     <canvas id="gameCanvas" width="800" height="600"></canvas>
 
-    <div id="menu" class="menu" onclick="openMenu()">Menu</div>
+    <div id="menu" class="menu-btn" onclick="openMenu()">Menu</div>
+    <div class="menu" id="defeat-screen">
+        <div class="menu-inner">
+            <h2 class="defeat-screen__heading">Game over!</h2>
+            <h3 class="defeat-screen__heading-score">Waves survived: <span id="score-text-points">|||</span></h3>
+            <h3 class="defeat-screen__heading-score">Time elapsed: <span id="score-text-time-elapsed">1:26</span></h3>
 
-    <div class="screen-settings" id="screen-settings">
-        <ul>
-            <li><a href="#" id="play" onclick="launchGame()">Play</a></li>
-            <li><a href="#" id="score" onclick="openScore()">Score</a></li>
-            <li><a href="#" id="settings" onclick="openSettings()">Settings</a></li>
-            <li><a href="#" id="sound">Sound</a></li>
-        </ul>
+            <div class="defeat-screen__actions">
+                <a href="#" class="defeat-screen__actions-link" onclick="openMenu()">Go to menu</a>
+                <a href="#" class="defeat-screen__actions-link" onclick="openDefeatMenu()">Play again</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu" id="menu-screen">
+        <div class="menu-inner">
+            <ul class="menu-inner__list">
+                <li class="menu-inner__list-item"><a href="#" id="play" onclick="launchGame()">Play</a></li>
+                <li class="menu-inner__list-item"><a href="#" id="score" onclick="openScore()">Score</a></li>
+                <li class="menu-inner__list-item"><a href="#" id="settings" onclick="openSettings()">Settings</a></li>
+            </ul>
+        </div>
     </div>
     <progress value="100" max="100" id="hero_health" class="health_progress hero_health_progress"></progress>
     <progress value="100" max="100" id="enemy_health" class="health_progress enemy_health_progress"></progress>
 </div>
 
-<!--<div class="score-table" id="score-table">-->
+<!--<div class="settings-screen" id="settings-screen">-->
 <!--<ul class="score-table__list">-->
-<!--<li class="score-table__list-item">10 000</li>-->
-<!--<li class="score-table__list-item">10 000</li>-->
-<!--<li class="score-table__list-item">10 000</li>-->
-<!--<li class="score-table__list-item">10 000</li>-->
-<!--<li class="score-table__list-item">10 000</li>-->
+<!--<li class="score-table__list">Zvuk: <span onclick="toggleSound()">🔊</span></li>-->
+<!--<li class="score-table__list">Obtiažnosť:</li>-->
 <!--</ul>-->
 <!--</div>-->
 
-<div class="settings-screen" id="settings-screen">
-    <ul class="score-table__list">
-        <li class="score-table__list">Zvuk: <span onclick="toggleSound()">🔊</span></li>
-        <li class="score-table__list">Obtiažnosť:</li>
-    </ul>
-</div>
-
-
+<script src="js/helpers.js"></script>
 <script src="js/Settings.js"></script>
 
 <script src="js/BaseClass.js"></script>

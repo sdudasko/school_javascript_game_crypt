@@ -1,3 +1,6 @@
+body {
+    font-family: 'Macondo Swash Caps', cursive;
+}
 div {
     box-sizing: border-box;
     padding: 0;
@@ -11,7 +14,7 @@ div {
 canvas {
     z-index: 5;
 }
-.menu {
+.menu-btn {
     position: absolute;
     left: 5px;
     top: 5px;
@@ -21,25 +24,31 @@ canvas {
     border-radius: 20px;
     text-align: center;
     cursor: pointer;
+    display: block;
 }
 
-.screen-settings {
+.menu-btn {
     display: block;
+}
+
+.menu {
     position: absolute;
     top: 0;
     left: 0;
-    background: #000;
     width: 800px;
     height: 600px;
-}
-.settings-screen {
-
-}
-.screen-settings--hidden {
+    background-image: url(../img/p_b7.png);
+    z-index: 20;
     display: none;
 }
-.settings-screen--visible {
-    display: block;
+.menu-inner {
+    width: 600px;
+    height: 600px;
+    background: black;
+    margin: 0 auto;
+}
+.settings-screen {
+    background-image: url(../img/p_b6.png);
 }
 
 progress[value].enemy_health_progress {
@@ -76,6 +85,58 @@ progress[value]::-webkit-progress-bar {
 .enemy_health_progress::-moz-progress-bar { background: #683390; }
 .enemy_health_progress::-webkit-progress-value { background: #683390; }
 
+.defeat-screen__heading {
+    color: #BD3239;
+    text-align: center;
+    margin: 0 auto;
+    padding-top: 160px;
+    font-size: 56px;
+}
+.defeat-screen__heading-score {
+    color: #BD3239;
+    text-align: center;
+    margin: 0 auto;
+    padding-top: 30px;
+    font-size: 28px;
+}
+.defeat-screen__actions {
+    margin-top: 50px;
+    text-align: center;
+}
+.defeat-screen__actions-link {
+    padding: 14px 10px;
+    background-image: url(../img/p_b6.png);
+    background-size: cover;
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+    border-radius: 30px;
+    opacity: .8;
+}
+.defeat-screen__actions-link:hover {
+    opacity: 1;
+    filter: brightness(1.5);
+    transition: .3s;
+    transition-timing-function: ease-out;
+}
+
+.menu-inner__list {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0;
+}
+
+.menu-inner__list-item {
+    margin: 10px 0;
+    font-size: 32px;
+}
+
+.visible {
+    display: block;
+}
 
 /*.health_progress {*/
     /*background-color: red;*/

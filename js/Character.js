@@ -257,15 +257,17 @@ class Character {
         this.x += this.speedX;
         this.y += this.speedY;
 
-        if (hero.x === (canvas.width - hero.width + 3) && hero.turn === 'right') {
-            level.set('currentLevel', level.levels[1]);
-            hero.x = 0;
-        }
+        if (hero !== undefined) {
+            if (hero.x === (canvas.width - hero.width + 3) && hero.turn === 'right') {
+                level.set('currentLevel', level.levels[1]);
+                hero.x = 0;
+            }
 
-        // We are on the left side of 2nd level
-        if ((hero.x <= 0) && (level.currentLevel === level.levels[1]) && (hero.turn === 'left')) {
-            level.set('currentLevel', level.levels[0]);
-            hero.x = canvas.width - this.width;
+            // We are on the left side of 2nd level
+            if ((hero.x <= 0) && (level.currentLevel === level.levels[1]) && (hero.turn === 'left')) {
+                level.set('currentLevel', level.levels[0]);
+                hero.x = canvas.width - this.width;
+            }
         }
 
     }
