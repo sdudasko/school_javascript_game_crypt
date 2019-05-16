@@ -10,7 +10,7 @@ let globalCounter = 0;
 
 let inventory = [];
 let cycle = 0;
-
+let swordTaken = false;
 let hero;
 
 let imagesByCell = [];
@@ -106,6 +106,7 @@ function resetAllVariables() {
     });
     level.currentLevel = level.levels[0];
     currentLevel = 1;
+
 }
 
 function updateAll() {

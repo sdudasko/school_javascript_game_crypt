@@ -296,6 +296,7 @@ class Character {
 
             inventory.push(level.notation['SWORD']);
         }
+        swordTaken = true;
 
     }
 
@@ -338,7 +339,7 @@ class Character {
                     element.turn = 'left';
                     element.speedX = self.walkBackSpeed;
 
-                } else if (hero.x - 80 > element.x) {
+                } else if (hero.x - 75 > element.x) {
                     element.turn = 'right';
                     element.speedX = self.walkSpeed;
                 }
