@@ -46,6 +46,8 @@ class Character {
         }
         this.health = 100;
         this.spawnLevel = spawnLevel;
+        this.characterLevel = 0;
+        this.ads = null;
 
     }
 
@@ -68,8 +70,17 @@ class Character {
         this.attacking = true;
     }
 
-    drawCharacter() {
+    drawCharacter(levelForCharacter) {
+        if ((this.characterLevel !== null) && (levelForCharacter !== undefined)) {
+            this.characterLevel = levelForCharacter;
+        } else {
+            // this.characterLevel = 0;
+        }
+        let curLevelForCharacter = level.levels.indexOf(level.currentLevel);
 
+        if (curLevelForCharacter !== this.characterLevel) {
+            return;
+        }
         let imageToDraw = imagesByCell.find(function (el) {
             return el.notation === level.notation['HERO'];
         });
@@ -130,10 +141,10 @@ class Character {
     jump(type = null, el) {
         if (type === 'enemy') {
             // enemies.forEach(function (e, i) {
-                if (!el.jumping) {
-                    el.speedY = -16;
-                    el.jumping = true;
-                }
+            if (!el.jumping) {
+                el.speedY = -16;
+                el.jumping = true;
+            }
             // });
         } else {
             if (!hero.jumping) {
@@ -184,6 +195,7 @@ class Character {
     }
 
     move() {
+
         this.speedX = 0;
 
         if (heldKeyLeft) {
@@ -266,16 +278,44 @@ class Character {
         this.x += this.speedX;
         this.y += this.speedY;
 
-        if (hero !== undefined) {
-            if (hero.x === (canvas.width - hero.width + 3) && hero.turn === 'right') {
+        if (this !== undefined) {
+            if (this.type === 'enemy') {
+                console.log(this.x);
+            }
+            if ((this.x === (canvas.width - this.width + 3)) || this.x === (canvas.width - this.width + 2)) {
+
                 level.set('currentLevel', level.levels[1]);
-                hero.x = 0;
+                this.x = 0;
+
+                this.characterLevel = 1;
+
+                if (enemies.length > 0) {
+                    enemies.forEach(function (element, index) {
+                        element.y = 200;
+                    });
+                }
             }
 
+
             // We are on the left side of 2nd level
-            if ((hero.x <= 0) && (level.currentLevel === level.levels[1]) && (hero.turn === 'left')) {
+            if ((this.x <= 0) && (level.currentLevel === level.levels[1]) && (this.turn === 'left')) {
+
                 level.set('currentLevel', level.levels[0]);
-                hero.x = canvas.width - this.width;
+                this.x = canvas.width - this.width;
+                this.characterLevel = 0;
+
+                if (((this.x === (canvas.width - this.width + 3)) || this.x === (canvas.width - this.width + 2)) && this.turn === 'right') {
+                    level.set('currentLevel', level.levels[1]);
+                    this.x = 0;
+
+                    this.characterLevel = 1;
+
+                    if (enemies.length > 0) {
+                        enemies.forEach(function (element, index) {
+                            element.y = 200;
+                        });
+                    }
+                }
             }
         }
 
@@ -334,12 +374,15 @@ class Character {
         if (enemies.length > 0) {
             enemies.forEach(function (element, index) {
                 if (
-                    hero.x + 80 <= element.x
+                    ((hero.x + 80 <= element.x) &&
+                        (element.characterLevel === hero.characterLevel)) ||
+                    (element.characterLevel > hero.characterLevel)
                 ) { // 80 - sword length
+
                     element.turn = 'left';
                     element.speedX = self.walkBackSpeed;
 
-                } else if (hero.x - 75 > element.x) {
+                } else if ((hero.x - 75 > element.x) || (element.characterLevel < hero.characterLevel)) {
                     element.turn = 'right';
                     element.speedX = self.walkSpeed;
                 }

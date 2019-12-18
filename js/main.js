@@ -129,12 +129,12 @@ function updateAll() {
         hero.move();
     }
     if (enemies.length > 0) {
-        if (level.currentLevel === level.levels[1]) {
+        // if (level.currentLevel === level.levels[1]) {
             enemies.forEach(function (element, index) {
                 element.drawCharacter();
                 element.move();
             });
-        }
+        // }
     }
 
     globalCounter++;
